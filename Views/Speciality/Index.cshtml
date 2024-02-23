@@ -1,0 +1,31 @@
+﻿@model List<przychodnia.Models.SpecialityModel>
+
+
+<h2>The list of doctor's specialities</h2>
+<hr />
+
+<div class="main-body" width=50%>
+
+    <table class="main-table">
+        <thead class="main-head">
+            <tr>
+                <th class="table-item">Speciality ID</th>
+                <th class="table-item">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var spec in Model)
+            {
+                <tr class="speciality-item">
+                    <td class="table-item">@spec.SpecialityID</td>
+                    <td class="table-item">@spec.Name</td>
+                </tr>
+            }
+
+        </tbody>
+        
+    </table>
+
+</div>
+
+

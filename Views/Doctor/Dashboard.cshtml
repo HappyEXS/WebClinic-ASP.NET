@@ -1,0 +1,85 @@
+﻿@model przychodnia.Models.DoctorModel
+
+<h1 class="dashboard-header">Doctor's Dashboard</h1>
+
+<table class="table-header">
+    <tr>
+        <td class="tab-first">
+            <h3>Your information</h3>
+        </td>
+        <td class="tab-last">
+            <a asp-action="Edit" class="btn btn-outline-secondary"
+               asp-route-doctorId="@Model.DoctorID">Edit info</a>
+        </td>
+    </tr>
+</table>
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">ID</th>
+                <th class="table-item">Last Name</th>
+                <th class="table-item">First Name</th>
+                <th class="table-item">Birth Date</th>
+                <th class="table-item">Email</th>
+                <th class="table-item">Password</th>
+            </tr>
+
+        </thead>
+        <tbody cite="doctor-body">
+            <tr class="table-row">
+                <td class="table-item">@Model.DoctorID</td>
+                <td class="table-item">@Model.Surname</td>
+                <td class="table-item">@Model.Name</td>
+                <td class="table-item">@Model.getBirthDate()</td>
+                <td class="table-item">@Model.Email</td>
+                <td class="table-item">@Model.Password</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="go-back-btn">
+    <a asp-action="Schedule" class="btn btn-outline-primary"
+       asp-route-doctorId="@Model.DoctorID" asp-route-weekStart="@Model.getLastMonday()">View Schedule</a>
+</div>
+
+<h3 class="mt-4">Patient visits</h3>
+<hr />
+
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Patient's Name</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Begins at</th>
+                <th class="table-item">Edit Description</th>
+            </tr>
+
+        </thead>
+        <tbody cite="visit-body">
+            @foreach (var visit in ViewBag.visits)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@visit.Patient.Name @visit.Patient.Surname</td>
+                    <td class="table-item">@visit.getDate()</td>
+                    <td class="table-item">@visit.getDayOfTheWeek()</td>
+                    <td class="table-item">@visit.getStartHour()</td>
+                    <td class="table-item">
+                        <a asp-action="EditDescription" class="btn btn-outline-primary"
+                           asp-route-visitID="@visit.VisitID">Edit</a>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>

@@ -1,0 +1,95 @@
+﻿@model przychodnia.Models.PatientModel
+
+<h1 class="dashboard-header">Patient's Dashboard</h1>
+
+<table class="table-header">
+    <tr>
+        <td class="tab-first">
+            <h3>Your information</h3>
+        </td>
+        <td class="tab-last">
+            <a asp-action="Edit" class="btn btn-outline-secondary"
+               asp-route-doctorId="@Model.PatientID">Edit info</a>
+        </td>
+    </tr>
+</table>
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Last Name</th>
+                <th class="table-item">First Name</th>
+                <th class="table-item">Birth Date</th>
+                <th class="table-item">Email</th>
+                <th class="table-item">Password</th>
+            </tr>
+
+        </thead>
+        <tbody cite="doctor-body">
+            <tr class="table-row">
+                <td class="table-item">@Model.Surname</td>
+                <td class="table-item">@Model.Name</td>
+                <td class="table-item">@Model.getBirthDate()</td>
+                <td class="table-item">@Model.Email</td>
+                <td class="table-item">@Model.Password</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>
+
+@if (Model.IsActive == false)
+{
+    <h5 class="mt-4" style="color:red;">This account is inactive. </h5>
+    <p style="color:red;">You can sign up for visits after account is verified by supervisor. If you need any information, please contact administrator.</p>
+}
+else
+{
+<h3 class="mt-4">Visits to doctors</h3>
+<hr />
+
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Doctor's Name</th>
+                <th class="table-item">Speciality</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Begins at</th>
+                <th class="table-item">Details</th>
+                <th class="table-item">Cancel</th>
+            </tr>
+
+        </thead>
+        <tbody cite="visit-body">
+            @foreach (var visit in ViewBag.visits)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@visit.Schedule.Doctor.Name @visit.Schedule.Doctor.Surname</td>
+                    <td class="table-item">@visit.Schedule.Doctor.Speciality.Name</td>
+                    <td class="table-item">@visit.getDate()</td>
+                    <td class="table-item">@visit.getDayOfTheWeek()</td>
+                    <td class="table-item">@visit.getStartHour()</td>
+                    <td class="table-item">
+                        <a asp-action="VisitDetails" class="btn btn-outline-info"
+                           asp-route-visitID="@visit.VisitID">Details</a>
+                    </td>
+                    <td class="table-item">
+                        <a asp-action="CancelVisit" class="btn btn-outline-danger"
+                            asp-route-visitID="@visit.VisitID"
+                            onclick="return confirm('Are you sure you want to cancelr visit on @visit.getDate() at @visit.getStartHour() to the @visit.Schedule.Doctor.Speciality.Name?')">
+                            Cancel
+                        </a>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>
+}

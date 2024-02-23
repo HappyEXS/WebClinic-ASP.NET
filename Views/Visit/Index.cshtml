@@ -1,0 +1,117 @@
+﻿@model QueryTemplate
+@inject IHttpContextAccessor contxt;
+
+<table class="table-header">
+    <tr>
+        <td class="tab-first">
+            <h2>Get an appointment </h2>
+        </td>
+
+    </tr>
+</table>
+<table>
+    <tr>
+        <form asp-controller="Visit" asp-action="Search" method="post">
+        <td class="table-item">
+            <label>Speciality</label>
+            <select asp-for=SpecialityID class="form-control" />
+            <option value="-1">--all--</option>
+                @foreach (var spec in ViewBag.specialities)
+                {
+                    @if (@spec.SpecialityID == @Model.SpecialityID)
+                    {
+                        <option value="@spec.SpecialityID" selected>@spec.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@spec.SpecialityID">@spec.Name</option>
+                    }
+                }
+        </td>
+        <td class="table-item">
+            <label for="startDate">Start Date</label>
+            <input asp-for=StartDate type="date" value="@Model.StartDate.ToString("yyyy-MM-dd")" class="form-control" />
+        </td>
+        <td class="table-item">
+            <label for="endDate">End Date</label>
+            <input asp-for=EndDate type="date" value="@Model.EndDate.ToString("yyyy-MM-dd")" class="form-control" />
+        </td>
+        <td class="class=" table-item">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </td>
+
+        </form>
+
+    </tr>
+</table>
+
+<hr />
+<p class="err-p"> @ViewBag.msg</p>
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Doctor's Name</th>
+                <th class="table-item">Speciality</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Begins at</th>
+                @if (@contxt.HttpContext.Session.GetString("UserType") == "patient")
+                {
+                    <th class="table-item">Make appointment</th>
+                }
+            </tr>
+
+        </thead>
+        <tbody cite="visit-body">
+
+            @foreach (var visit in ViewBag.visits)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@visit.Schedule.Doctor.Name @visit.Schedule.Doctor.Surname</td>
+                    <td class="table-item">@visit.Schedule.Doctor.Speciality.Name</td>
+                    <td class="table-item">@visit.getDate()</td>
+                    <td class="table-item">@visit.getDayOfTheWeek()</td>
+                    <td class="table-item">@visit.getStartHour()</td>
+                    @if (@contxt.HttpContext.Session.GetString("UserType") == "patient")
+                    {
+                        if (@visit.StartTime < DateTime.Now)
+                        {
+                            <td class="table-item">
+                                <a class="btn btn-outline-dark" onclick="return confirm('Can not sign up on past visit!')">Sign up</a>
+                            </td>
+                        }
+                        else if (@contxt.HttpContext.Session.GetString("PatientInactive") == "true")
+                        {
+                            <td class="table-item">
+                                <a class="btn btn-outline-dark" onclick="return confirm('Can not sign up with inactive account!')">Sign up</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="table-item">
+                               @*  <a asp-action="SignUpForVisit" class="btn btn-outline-success"
+                                asp-route-visitID="@visit.VisitID"
+                                asp-route-patientID="@contxt.HttpContext.Session.GetInt32("UserID")"
+                                onclick="return confirm('Are you sure you want to sign up for visit on @visit.getDate() at @visit.getStartHour()?')">
+                                    Sign up
+                                </a> *@
+                                <form asp-controller="Visit" asp-action="SignUpForVisit" method="post"
+                                      asp-route-visitID="@visit.VisitID"
+                                      asp-route-patientID="@contxt.HttpContext.Session.GetInt32("UserID")">
+                                    <input type="hidden" asp-for="StartDate" />
+                                    <input type="hidden" asp-for="EndDate" />
+                                    <input type="hidden" asp-for="SpecialityID" />
+                                    <button type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure you want to sign up for visit on @visit.getDate() at @visit.getStartHour()?')">Sign up</button>
+                                </form>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

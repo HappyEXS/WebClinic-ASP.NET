@@ -1,0 +1,35 @@
+﻿@model DoctorModel
+
+<h1>Log in to the employee account</h1>
+
+@if (ViewBag.msg != null)
+{
+    <p class="err-p"> @ViewBag.msg</p>
+}
+else
+{
+    <p>Provide the login data given by the director of the WebClinic</p>
+}
+
+<div class="form-body">
+    <form asp-controller="Doctor" asp-action="LoginDoctor" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for=Email type="text" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input asp-for=Password type="text" class="form-control" />
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Log in</button>
+
+    </form>
+
+</div>
+
+<div class="login-footer">
+    <p>Log in as an patient <a href="/Patient/Login">here</a></p>
+</div>

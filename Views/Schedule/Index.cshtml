@@ -1,0 +1,85 @@
+﻿@model QueryTemplate
+@inject IHttpContextAccessor contxt;
+
+<table class="table-header">
+    <tr>
+        <td class="tab-first">
+            <h2>Doctors schedule</h2>
+        </td>
+        @if (@contxt.HttpContext.Session.GetString("IsDirector") == "true")
+        {
+            <td class="tab-last">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/Schedule/Create';">Add new schedule</button>
+            </td>
+        }
+    </tr>
+</table>
+<table>
+    <tr>
+        <form asp-controller="Schedule" asp-action="Search" method="post">
+        <td class="table-item">
+            <label>Speciality</label>
+            <select asp-for=SpecialityID class ="form-control"/>
+            <option value="-1">--all--</option>
+                @foreach (var spec in ViewBag.specialities)
+                {
+                    @if (@spec.SpecialityID == @Model.SpecialityID)
+                    {
+                    <option value="@spec.SpecialityID" selected>@spec.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@spec.SpecialityID">@spec.Name</option>
+                    }
+                }
+        </td>
+        <td class="table-item">
+            <label for="startDate">Start Date</label>
+            <input asp-for=StartDate type="date" value="@Model.StartDate.ToString("yyyy-MM-dd")" class="form-control" />
+        </td>
+        <td class="table-item">
+            <label for="endDate">End Date</label>
+            <input asp-for=EndDate type="date" value="@Model.EndDate.ToString("yyyy-MM-dd")" class="form-control" />
+        </td>
+        <td class="class=" table-item">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </td>
+        
+        </form>
+
+    </tr>
+</table>
+    
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Doctor's Name</th>
+                <th class="table-item">Speciality</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Begins at</th>
+                <th class="table-item">Ends at</th>
+            </tr>
+                
+        </thead>
+        <tbody cite="schedule-body">
+                
+            @foreach (var sched in ViewBag.schedules)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@sched.Doctor.Name @sched.Doctor.Surname</td>
+                    <td class="table-item">@sched.Doctor.Speciality.Name</td>
+                    <td class="table-item">@sched.getDate()</td>
+                    <td class="table-item">@sched.getDayOfTheWeek()</td>
+                    <td class="table-item">@sched.getStartHour()</td>
+                    <td class="table-item">@sched.getEndHour()</td>
+                </tr>
+            }
+                
+    </tbody>
+
+    </table>
+
+</div>

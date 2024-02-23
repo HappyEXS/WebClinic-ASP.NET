@@ -1,0 +1,79 @@
+﻿@inject IHttpContextAccessor contxt;
+
+<table class="table-header">
+    <tr class="tab-row">
+        <td class="tab-first">
+            <h2>@ViewBag.Doctor.Name @ViewBag.Doctor.Surname schedule</h2>
+        </td>
+        <td class="tab-last">
+            <h5>Week start: @ViewBag.WeekStart.ToString("dd-MM-yyyy")</h5>
+        </td>
+
+    </tr>
+    <tr class="tab-row">
+        <td class="tab-first">
+            <a asp-action="Schedule" class="btn btn-outline-primary"
+               asp-route-doctorId="@ViewBag.Doctor.DoctorID" asp-route-weekStart="@ViewBag.PreviousWeekStart">Previous week</a>
+        </td>
+        <td class="tab-last">
+            <a asp-action="Schedule" class="btn btn-outline-primary"
+               asp-route-doctorId="@ViewBag.Doctor.DoctorID" asp-route-weekStart="@ViewBag.NextWeekStart">Next week</a>
+        </td>
+    </tr>
+</table>
+
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Name</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Begins at</th>
+                <th class="table-item">Ends at</th>
+                <th class="table-item">Delete Schedule</th>
+            </tr>
+
+        </thead>
+        <tbody cite="schedule-body">
+
+            @foreach (var sched in @ViewBag.Schedules)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@ViewBag.Doctor.Name @ViewBag.Doctor.Surname</td>
+                    <td class="table-item">@sched.getDayOfTheWeek()</td>
+                    <td class="table-item">@sched.getDate()</td>
+                    <td class="table-item">@sched.getStartHour()</td>
+                    <td class="table-item">@sched.getEndHour()</td>
+                    <td class="table-item">
+                        <a asp-action="DeleteSchedule" class="btn btn-outline-danger"
+                           asp-route-doctorId="@ViewBag.Doctor.DoctorID" 
+                           asp-route-scheduleId=" @sched.ScheduleID"
+                           asp-route-weekStart="@ViewBag.WeekStart"
+                           onclick="return confirm('Are you sure you want to delete schedule on date: @sched.getDate()?')">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+    
+</div>
+
+@if (@contxt.HttpContext.Session.GetString("IsDirector") == "true")
+{
+    <div class="go-back-btn">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/Doctor';">Go back</button>
+    </div>
+}
+else
+{
+    <div class="go-back-btn">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/Doctor/Dashboard';">Go back</button>
+    </div>
+}
+
+
+

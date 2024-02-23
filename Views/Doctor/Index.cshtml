@@ -1,0 +1,57 @@
+﻿@model List<przychodnia.Models.DoctorModel>
+
+<table class="table-header">
+    <tr>
+        <td class="tab-first">
+            <h2>Doctors</h2>
+        </td>
+        <td class="tab-last">
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/Doctor/Create';">Create new doctor account</button>
+        </td>
+    </tr>
+</table>
+
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Doctor ID</th>
+                <th class="table-item">Last Name</th>
+                <th class="table-item">First Name</th>
+                <th class="table-item">Birth Date</th>
+                <th class="table-item">Speciality</th>
+                <th class="table-item">View Schedule</th>
+                <th class="table-item">Edit / Delete Account</th>
+            </tr>
+
+        </thead>
+        <tbody cite="doctor-body">
+
+            @foreach (var doctor in Model)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@doctor.DoctorID</td>
+                    <td class="table-item">@doctor.Surname</td>
+                    <td class="table-item">@doctor.Name</td>
+                    <td class="table-item">@doctor.getBirthDate()</td>
+                    <td class="table-item">@doctor.Speciality.Name</td>
+                    <td class="table-item">
+                        <a asp-action="Schedule" class="btn btn-outline-primary"
+                           asp-route-doctorId="@doctor.DoctorID" asp-route-weekStart="@doctor.getLastMonday()">Schedule</a>
+                    </td>
+                    <td class="table-item">
+                        <a asp-action="Edit" class="btn btn-outline-secondary"
+                           asp-route-doctorId="@doctor.DoctorID">Edit</a>
+                        <a asp-action="Delete" class="btn btn-outline-danger"
+                           asp-route-doctorId="@doctor.DoctorID"
+                           onclick="return confirm('Are you sure you want to delete doctor: @doctor.Name @doctor.Surname?')">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

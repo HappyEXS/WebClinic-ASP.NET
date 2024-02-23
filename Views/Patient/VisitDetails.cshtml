@@ -1,0 +1,36 @@
+﻿@model VisitModel
+
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Doctor's Name</th>
+                <th class="table-item">Date</th>
+                <th class="table-item">Day of the Week</th>
+                <th class="table-item">Begins at</th>
+            </tr>
+
+        </thead>
+        <tbody cite="visit-body">
+
+            <tr class="table-row">
+                <td class="table-item">@Model.Schedule.Doctor.Name @Model.Schedule.Doctor.Surname</td>
+                <td class="table-item">@Model.getDate()</td>
+                <td class="table-item">@Model.getDayOfTheWeek()</td>
+                <td class="table-item">@Model.getStartHour()</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="mt-4">
+        <tr>
+            <td class="table-item">
+                <textarea rows="15" cols="120" style="resize:none;" readonly>@Model.Description </textarea>
+            </td>
+            <td class="table-item">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Patient/Dashboard';">Go back</button>
+            </td>
+        </tr>
+    </table>
+</div>
+

@@ -1,0 +1,66 @@
+﻿@model DoctorModel
+
+<h1>Create new doctor account</h1>
+
+<hr />
+<h5>Submit your information to create an account</h5>
+
+
+<div class="form-body">
+    <form asp-controller="Doctor" asp-action="Create" method="post" >
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input asp-for=Name type="text" placeholder="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input asp-for=Surname type="text" placeholder="Surname" class="form-control" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date of birth</label>
+            <input asp-for=DateOfBirth type="date" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" 
+                    min="1900-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email address</label>
+            <input asp-for=Email type="text" placeholder="email@example.com" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Password</label>
+            <input asp-for=Password type="text" placeholder="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <table class="mb-3">
+            <tr class="tab-row">
+                <td class="table-item" style="margin-right: 50px;">
+                    <label class="form-label">Speciality</label>
+                </td>
+                <td class="table-item">
+                    <select asp-for=SpecialityID class="form-control" />
+                    @foreach (var spec in ViewBag.specialities)
+                    {
+                        @if (@spec.SpecialityID == @Model.SpecialityID)
+                        {
+                            <option value="@spec.SpecialityID" selected>@spec.Name</option>
+                        }
+                        <option value="@spec.SpecialityID">@spec.Name</option>
+                    }
+                </td>
+            </tr>
+        </table>
+        
+        <div class="mb-2">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='/Doctor';">Go back</button>
+        </div>
+        
+    </form>
+
+</div>
+

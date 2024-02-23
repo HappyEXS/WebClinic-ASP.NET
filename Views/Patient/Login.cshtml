@@ -1,0 +1,35 @@
+﻿@model PatientModel
+
+<h1>Log in to the patient panel</h1>
+
+@if (ViewBag.msg != null)
+{
+    <p class="err-p"> @ViewBag.msg</p>
+}
+else
+{
+    <p>Do not have an account yet? Create one <a href="/Patient/Create">here</a></p>
+}
+
+<div class="form-body">
+    <form asp-controller="Patient" asp-action="LoginPatient" method="get">
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="text" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="text" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Log in</button>
+
+    </form>
+
+</div>
+
+<div class="login-footer">
+    <p>Log in as an employee <a href="/Doctor/Login">here</a></p>
+</div>

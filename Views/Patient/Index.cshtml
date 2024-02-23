@@ -1,0 +1,57 @@
+﻿@model List<przychodnia.Models.PatientModel>
+
+<table class="table-header">
+    <tr>
+        <td class="tab-header">
+            <h2>Patients</h2>
+        </td>
+
+    </tr>
+</table>
+
+<hr />
+<div class="main-body">
+    <table class="main-table">
+        <thead class="main-head">
+            <tr class="table-row">
+                <th class="table-item">Patient ID</th>
+                <th class="table-item">Surname</th>
+                <th class="table-item">Name</th>
+                <th class="table-item">Birth Date</th>
+                <th class="table-item">Email</th>
+                <th class="table-item">Active</th>
+                <th class="table-item">Activate / Disactivate</th>
+                <th class="table-item">Delete Account</th>
+            </tr>
+
+        </thead>
+        <tbody cite="doctor-body">
+
+            @foreach (var patient in Model)
+            {
+                <tr class="table-row">
+                    <td class="table-item">@patient.PatientID</td>
+                    <td class="table-item">@patient.Surname</td>
+                    <td class="table-item">@patient.Name</td>
+                    <td class="table-item">@patient.getBirthDate()</td>
+                    <td class="table-item">@patient.Email</td>
+                    <td class="table-item">@patient.IsActive</td>
+                    <td class="table-item">
+                        <a asp-action="Activate" class="btn btn-outline-primary"
+                           asp-route-patientId="@patient.PatientID">Activate</a>
+                        <a asp-action="Disactivate" class="btn btn-outline-secondary"
+                           asp-route-patientId="@patient.PatientID">Disactivate</a>
+                    </td>
+                    <td class="table-item">
+                        <a asp-action="Delete" class="btn btn-outline-danger"
+                           asp-route-patientId="@patient.PatientID"
+                           onclick="return confirm('Are you sure you want to delete patient: @patient.Name @patient.Surname?')">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

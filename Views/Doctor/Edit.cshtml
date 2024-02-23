@@ -1,0 +1,65 @@
+﻿@model DoctorModel
+@inject IHttpContextAccessor contxt;
+
+<h1>Edit doctor account</h1>
+
+<hr />
+<h5>Submit updated information</h5>
+
+<p class="err-p"> @ViewBag.msg</p>
+
+<div class="form-body">
+    <form asp-controller="Doctor" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="DoctorID" />
+        <input type="hidden" asp-for="SpecialityID" />
+        <input type="hidden" asp-for="IsDirector" />
+        <input type="hidden" asp-for="RowVersion" />
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input asp-for=Name type="text" class="form-control" value="@Model.Name"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input asp-for=Surname type="text" class="form-control" value="@Model.Surname" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date of birth</label>
+            <input asp-for=DateOfBirth type="date" value="2000-01-01" 
+                    min="1900-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" 
+                    class="form-control" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email addres</label>
+            <input asp-for=Email type="text" class="form-control" value="@Model.Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input asp-for=Password type="text" class="form-control" value="@Model.Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+            @if (@contxt.HttpContext.Session.GetInt32("UserID") == @Model.DoctorID)
+            {
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Doctor/Dashboard';">Go back</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Doctor';">Go back</button>
+            }
+            
+        </div>
+    </form>
+
+</div>
+
+

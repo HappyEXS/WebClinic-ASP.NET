@@ -1,0 +1,103 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background: lightblue;
+    margin-bottom: 60px;
+}
+
+.home-page {
+    padding-top: 120px;
+    text-align: justify;
+
+}
+.home-title {
+    font-size: 45px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+.home-page p{
+    font-family: 'Times New Roman', Times, serif;
+}
+.home-page h5 {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.border-top {
+    background: white;
+}
+
+.speciality-item {
+    border-bottom: 1px solid #ddd;
+    padding: 6px;
+}
+.main-body {
+    background: PapayaWhip;
+    padding: 30px;
+    border: double;
+    border-style: groove;
+    border-radius: 5px;
+    width: 100%;
+}
+.form-body {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 50%;
+}
+.main-table {
+    width: 100%;
+}
+.main-head {
+    height: 30px;
+    font-size: 20px;
+}
+.table-item {
+    padding: 6px;
+}
+
+.table-row {
+    border-bottom: 1px solid #ddd;
+}
+.tab-row {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    flex-direction: row;
+}
+.tab-first {
+    width:1000px;
+}
+.tab-last {
+    width: 300px;
+    text-align: right;
+    margin-left: auto;
+}
+.go-back-btn {
+    padding-top: 20px;
+}
+.err-p {
+    color: red;
+
+}
+select {
+    max-width: 300px;
+    min-width: 300px;
+}
+
+.dashboard-header {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
